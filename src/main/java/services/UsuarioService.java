@@ -7,7 +7,6 @@ package services;
 
 import main.PersistenceManager;
 import models.Competitor;
-import models.CompetitorDTO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -52,7 +51,7 @@ public class UsuarioService {
     } 
 
     
-       @POST
+    /*   @POST
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCompetitor(CompetitorDTO competitor) {
@@ -106,7 +105,7 @@ public class UsuarioService {
                 return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(competitors).build();
              }
 
-    } 
+    } */
 
 
 }

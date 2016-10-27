@@ -2,10 +2,7 @@
  
 import com.sun.istack.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Column;
@@ -18,12 +15,10 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import uk.co.jemos.podam.common.PodamStrategyValue;
- 
  
 /**
  *
- * @author Johan
+ * @author Mauricio
  */
 @Entity
 public class CampoEntity implements Serializable {
@@ -34,70 +29,69 @@ public class CampoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
  
-   
-   /* @OneToMany(cascade=ALL, mappedBy="competitor")
-    private Set<Producto> products;*/
+    @NotNull
+    @Column(name = "create_at", updatable = false)
+    @Temporal(TemporalType.DATE)
+    private Calendar createdAt;
  
-    private String nombre;
- 
-    private String ciudad;
+    @NotNull
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.DATE)
+    private Calendar updatedAt;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    @OneToMany(cascade=ALL, mappedBy="competitor")
+    private Set<Producto> products;
  
-    @OneToMany(cascade=ALL,  mappedBy="campo")
-    private List<PozoEntity> pozos= new ArrayList<PozoEntity>();
-
+    private String name;
+ 
+    private String surname;
+ 
+    private int age;
+ 
+    private String telephone;
+ 
+    private String cellphone;
+ 
+    private String address;
    
+    private String city;
+ 
+    private String country;
+ 
+    private boolean winner;
+    
+    private String username;
+    
+    private String password;
  
     public CampoEntity() {
-         //pozos= new ArrayList<PozoEntity>();
-                  
+ 
     }
  
     public CampoEntity(String nameN, String surnameN, int ageN, String telephoneN, String cellphoneN, String addressN, String cityN, String countryN, boolean winnerN, String username, String password) {
-        nombre = nameN;
-        ciudad = surnameN;
-       
+        name = nameN;
+        surname = surnameN;
+        age = ageN;
+        telephone = telephoneN;
+        cellphone = cellphoneN;
+        address = addressN;
+        city = cityN;
+        country = countryN;
+        winner = winnerN;
+        this.username = username;
+        this.password = password;
     }
  
-    /*public PozoEntity agregarPozo(String nameN){
-          if(pozos==null)pozos=(List<PozoEntity>) new ArrayList<PozoEntity>();
-         PozoEntity pozo=new PozoEntity();
-         pozo.setNombre(nameN);
-         pozos.add(pozo);
-         return pozo;
-    }*/
-    
-    
-    public Date getFecha(){
-        return this.fecha;
+    @PreUpdate
+    private void updateTimestamp() {
+        this.updatedAt = Calendar.getInstance();
     }
-    
-    public void setFecha(Date nueva){
-        this.fecha=nueva;
+ 
+    @PrePersist
+    private void creationTimestamp() {
+        this.createdAt = this.updatedAt = Calendar.getInstance();
     }
-    
-    public void iniciarFecha(){
-        this.fecha=new Date();
-    }
-            
-     public List<PozoEntity> getPozos() {
-        return pozos;
-    }
-
-    public void setPozos(List<PozoEntity> pozos) {
-        this.pozos = pozos;
-    }
-    
-    public PozoEntity getPozo(int i) {
-        return this.pozos.get(i);
-    }
-    
-    public void setPozo(int i,PozoEntity pozo) {
-        this.pozos.set(i,pozo);
-    }
-    
+ 
     public Long getId() {
         return id;
     }
@@ -106,22 +100,94 @@ public class CampoEntity implements Serializable {
         this.id = id;
     }
  
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
  
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
  
-    public String getCiudad() {
-        return ciudad;
+    public String getSurname() {
+        return surname;
     }
  
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
  
+    public int getAge() {
+        return age;
+    }
+ 
+    public void setAge(int age) {
+        this.age = age;
+    }
+ 
+    public String getTelephone() {
+        return telephone;
+    }
+ 
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+ 
+    public String getCellphone() {
+        return cellphone;
+    }
+ 
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
+ 
+    public String getAddress() {
+        return address;
+    }
+ 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+ 
+    public String getCity() {
+        return city;
+    }
+ 
+    public void setCity(String city) {
+        this.city = city;
+    }
+ 
+    public String getCountry() {
+        return country;
+    }
+ 
+    public void setCountry(String country) {
+        this.country = country;
+    }
+ 
+    public boolean isWinner() {
+        return winner;
+    }
+ 
+    public void setWinner(boolean winner) {
+        this.winner = winner;
+    }
+ 
+    public Set<Producto> getProducts() {
+        return products;
+    }
+        public String getUsername() {
+        return username;
+    }
+ 
+    public void setUsername(String username) {
+        this.username = username;
+    }
     
-   
+    public String getPassword() {
+        return password;
+    }
+ 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

@@ -7,7 +7,7 @@ package services;
 
 import main.PersistenceManager;
 import models.Competitor;
-import models.CompetitorDTO;
+import dto.CompetitorDTO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;

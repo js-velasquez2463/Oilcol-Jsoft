@@ -1,0 +1,76 @@
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('resources/img/post-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Zonas Geograficas</h1>
+                        <h2 class="subheading">Muestra la informacionde las zonas geograficas</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+
+          <article>
+         <div class="container" ng-controller='zonaCtrl'  >
+
+    <div style="float:left; width:50%;">
+<!--Left  Column some text goes here -->
+    <div class="tab-content">
+        <div id="tab1" class="tab active">
+             <form  ng-submit="newZona()">
+              <fieldset>
+                <legend ><b>Zona </b></legend>
+         <p id="label">Escribir Zona</p> <input ng-model="nombreZona">
+     
+          <br>
+          <input type ="submit" value="Agregar">
+          </fieldset>
+         </form>
+
+        </div>
+
+        <div id="tab2" class="tab">
+
+
+        </div>
+
+        <div id="tab3" class="tab">
+
+        </div>
+
+        <div id="tab4" class="tab">
+
+        </div>
+        <div id="tab5" class="tab">
+
+        </div>
+    </div>
+
+    </div>
+
+ <div style="float:right; width:50%;"  >
+  <!--Right Column-->
+<fieldset>
+  <legend><b>ZonasGeograficas</b></legend>
+<select id="zonasSelect" size="10" ng-model="zonaSeleccionado">
+  <option ng-repeat="zona in zona">{{Zona.nombre }}</option>
+</select>
+</fieldset>
+
+<div>
+<button type="button" onclick="alert('la zona ha sido mostrada exitoamente')">Guardar!</button>
+<button type="button" ng-click="borrar()">Borrar!</button>
+
+</div>
+                    </div>
+                </div>
+    </article>
+    <hr>
+</body>
+</html>
