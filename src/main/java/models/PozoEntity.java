@@ -5,13 +5,21 @@
  */
 package models;
 
+import com.sun.istack.NotNull;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import static javax.persistence.CascadeType.ALL;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -24,7 +32,17 @@ public class PozoEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
+    @NotNull
+    @Column(name = "create_at", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+ 
+    @NotNull
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+    
     
     private String nombre;
 
@@ -41,7 +59,23 @@ public class PozoEntity implements Serializable {
     @ManyToOne(cascade=ALL)
     private CampoEntity campo;
 
+   public PozoEntity(){
+       
+   }
    
+   @PreUpdate
+    private void updateTimestamp() {
+        this.updatedAt = new Date();
+    }
+ 
+    @PrePersist
+    private void creationTimestamp() {
+        this.createdAt = this.updatedAt = new Date();
+    }
+    
+    public Date getCreationTimestamp(){
+        return this.createdAt;
+    }
     
     public Long getId() {
         return id;

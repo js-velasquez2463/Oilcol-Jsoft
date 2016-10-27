@@ -1,7 +1,11 @@
 
 package dto;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  *
@@ -22,6 +26,10 @@ public class PozoDTO {
     private double numeroBarriles;
     
     private boolean emergencia; 
+    
+    private Date fechaCreacion;
+    
+    private String fecha;
  
     public PozoDTO(){
         
@@ -81,5 +89,27 @@ public class PozoDTO {
         this.emergencia = emergencia;
     }
     
+   public Date getFechaCreacion(){
+       return this.fechaCreacion;
+   }
+   
+   public void setFechaCreacion(Date fecha){
+     //  System.out.println("fecha: "+fecha.getCalendarType());
+       this.fechaCreacion=fecha;
+   }
+   
+   public void setFecha(Date fecha){
+       //System.out.println("fecha: "+fecha.getCalendarType());
+      //   fecha.add(Calendar.DATE, 1);
+       //  Date date = fecha.getTime();             
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date1 = format1.format(fecha);   
+      this.fecha = date1; 
+       
+   }
+   public String getFecha(){
+       return this.fecha;
+   }
+   
    
 }

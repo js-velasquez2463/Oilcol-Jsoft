@@ -1,7 +1,9 @@
 
 package dto;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import models.PozoEntity;
 
@@ -24,6 +26,10 @@ public class CampoDTO {
     private List<PozoDTO> pozos=new ArrayList<PozoDTO>();
     
     private PozoDTO pozo;
+    
+    private Date fechaCreacion;
+    
+    private String fecha;
 
     public PozoDTO getPozo() {
         return pozo;
@@ -38,6 +44,33 @@ public class CampoDTO {
         
     }
     
+  public Date getFechaCreacion(){
+       return this.fechaCreacion;
+   }
+   
+   public void setFechaCreacion(Date fecha){
+     //  System.out.println("fecha: "+fecha.getCalendarType());
+       this.fechaCreacion=fecha;
+   }
+   
+   public void setFecha(Date fecha){
+       //System.out.println("fecha: "+fecha.getCalendarType());
+      //   fecha.add(Calendar.DATE, 1);
+       //  Date date = fecha.getTime();             
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date1 = format1.format(fecha);   
+      this.fecha = date1; 
+       
+   }
+   public String getFecha(){
+       return this.fecha;
+   }
+    
+    public void iniciarFecha(){
+        setFecha(new Date());
+    }
+    
+   
     public PozoDTO agregarPozo(String nombreP){
         
         PozoDTO nuevo=new PozoDTO();

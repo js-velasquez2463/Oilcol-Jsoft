@@ -7,12 +7,18 @@ package services;
 
 import dto.CampoDTO;
 import dto.PozoDTO;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import main.PersistenceManager;
 import models.Competitor;
 import models.CompetitorDTO;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -67,6 +73,35 @@ public class OilcolService {
          return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(campos).build();
     } 
     
+    
+    
+    @GET
+    @Path("/filtroPozos/{id: \\d+}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFiltroPozos(@PathParam("id") String id) {
+        Query q = entityManager.createQuery("select u from PozoEntity u order by u.id");
+        System.out.println("entro a filtro");
+        List<PozoEntity> pozos = q.getResultList();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try { 
+            Date date = format.parse(id);
+            
+            for (int i=0;i<pozos.size();i++){
+            CampoEntity campo= pozos.get(i).getCampo();
+            if(campo!=null)campo.setPozos(null);
+            
+            if(!campo.getFecha().equals(date)){
+                pozos.remove(i);
+            }
+
+            }
+            } catch (ParseException ex) {
+                Logger.getLogger(OilcolService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+        return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(pozos).build();
+    }
+    
     @GET
     @Path("/getPozos")
     @Produces(MediaType.APPLICATION_JSON)
@@ -97,6 +132,9 @@ public class OilcolService {
             encontrado.setEstado(pozo.getEstado());
             encontrado.setNumeroBarriles(pozo.getNumeroBarriles());
             encontrado.setTemperatura(pozo.getTemperatura());
+            encontrado.setFechaCreacion(pozo.getCreationTimestamp());
+            encontrado.setFecha(pozo.getCreationTimestamp());
+            
         }
      return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(encontrado).build();
      } 
@@ -143,6 +181,7 @@ public class OilcolService {
             encontrado.setCiudad(campo.getCiudad());
             encontrado.setId(campo.getId());
             encontrado.setNombre(campo.getNombre());
+            encontrado.setFecha(campo.getFecha());
             List<PozoEntity> pozos = campo.getPozos();
             List<PozoDTO>lista=new ArrayList<PozoDTO>();
         for (int i=0;i<pozos.size();i++){
@@ -162,6 +201,7 @@ public class OilcolService {
         CampoEntity campoTmp = new CampoEntity();
         campoTmp.setCiudad(campo.getCiudad());
         campoTmp.setNombre(campo.getNombre());
+        campoTmp.iniciarFecha();
          
         try {
             entityManager.getTransaction().begin();
@@ -191,6 +231,7 @@ public class OilcolService {
         CampoEntity campoTmp = new CampoEntity();
         campoTmp.setCiudad(campo.getCiudad());
         campoTmp.setNombre(campo.getNombre());
+        campoTmp.iniciarFecha();
         
         ArrayList<PozoEntity> lista=new ArrayList<PozoEntity>();
         //campoTmp.s

@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
@@ -17,6 +18,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import uk.co.jemos.podam.common.PodamStrategyValue;
+ 
  
 /**
  *
@@ -38,6 +41,9 @@ public class CampoEntity implements Serializable {
     private String nombre;
  
     private String ciudad;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
  
     @OneToMany(cascade=ALL,  mappedBy="campo")
     private List<PozoEntity> pozos= new ArrayList<PozoEntity>();
@@ -64,6 +70,18 @@ public class CampoEntity implements Serializable {
     }*/
     
     
+    public Date getFecha(){
+        return this.fecha;
+    }
+    
+    public void setFecha(Date nueva){
+        this.fecha=nueva;
+    }
+    
+    public void iniciarFecha(){
+        this.fecha=new Date();
+    }
+            
      public List<PozoEntity> getPozos() {
         return pozos;
     }
